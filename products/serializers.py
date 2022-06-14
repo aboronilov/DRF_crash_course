@@ -8,7 +8,11 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'content', 'price', 'sale_price', 'details']
+        fields = ['title', 'content', 'price', 'sale_price', 'details']
 
     def get_details(self, obj):
+        if not hasattr(obj, 'id'):
+            return None
+        if not isinstance(obj, Product):
+            return None
         return obj.get_random_info()
