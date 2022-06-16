@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import ProductDetailAPIView, ProductListCreateAPIView
+from .views import ProductDetailAPIView, ProductListCreateAPIView, product_alt_view
 
 urlpatterns = [
     path('<int:pk>/', ProductDetailAPIView.as_view()),
