@@ -8,7 +8,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['title', 'content', 'price', 'sale_price', 'details']
+        fields = ['pk', 'title', 'content', 'price', 'sale_price', 'details']
 
     def get_details(self, obj):
         if not hasattr(obj, 'id'):
