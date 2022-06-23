@@ -1,14 +1,32 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from .models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
     details = serializers.SerializerMethodField(read_only=True)
+    edit_url = serializers.SerializerMethodField(read_only=True)
+    url = serializers.HyperlinkedIdentityField(view_name="product-detail")
+    email = serializers.EmailField(write_only=True)
 
     class Meta:
         model = Product
-        fields = ['pk', 'title', 'content', 'price', 'sale_price', 'details']
+        fields = ['url', 'edit_url', 'pk', 'title', 'content', 'price', 'sale_price', 'details']
+
+    # можно делать отдельно serializers под каждый метод crud
+    def create(self, validated_data):
+        email = validated_data.pop('email')
+        super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        super().update(instance, validated_data)
+
+    def get_edit_url(self, obj):
+        request = self.context.get('request')
+        if not request:
+            return None
+        return reverse(viewname="product-edit", kwargs={'pk': obj.pk}, request=request)
 
     def get_details(self, obj):
         if not hasattr(obj, 'id'):
