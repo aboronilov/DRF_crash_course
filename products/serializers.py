@@ -15,6 +15,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
+            # 'user',
             'url',
             'edit_url',
             # 'name',
@@ -25,8 +26,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'sale_price',
             'details'
         ]
-
-    # я не мерджил
 
     # можно делать отдельно serializers под каждый метод crud
     # def create(self, validated_data):
