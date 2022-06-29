@@ -26,7 +26,16 @@ SECRET_KEY = 'django-insecure-@fk12&ky%@79gw_*ns-vosf(-a0614%nw5=ddrb7#=hp8&)4+c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+
+CORS_URLS_REGEX = r'^/api/.*'
+CORS_ALLOWED_ORIGINS = []
+
+if DEBUG:
+    CORS_ALLOWED_ORIGINS += [
+        "http://127.0.0.1:8111",
+    ]
 
 # Application definition
 
@@ -41,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
+    "corsheaders",
 
     'algoliasearch_django',
 
@@ -50,6 +60,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
