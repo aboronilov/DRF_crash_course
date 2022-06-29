@@ -20,6 +20,7 @@ class ProductSerializer(serializers.ModelSerializer):
     edit_url = serializers.SerializerMethodField(read_only=True)
     url = serializers.HyperlinkedIdentityField(view_name="product-detail")
     title = serializers.CharField(validators=[validate_title_no_hello, unique_validator])
+    body = serializers.CharField(source='content')
 
     class Meta:
         model = Product
@@ -29,14 +30,14 @@ class ProductSerializer(serializers.ModelSerializer):
             'edit_url',
             'pk',
             'title',
-            'content',
+            'body',
             'price',
             'sale_price',
             'public',
+            'endpoint'
         ]
 
     # можно делать отдельно serializers под каждый метод crud
-
     def get_edit_url(self, obj):
         request = self.context.get('request')
         if not request:
